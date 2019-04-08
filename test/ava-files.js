@@ -68,6 +68,24 @@ test('testMatcher with custom extensions', t => {
 	t.end();
 });
 
+test('testMatcher with custom compound extensions', t => {
+	const avaFiles = new AvaFiles({files: ['**/foo*'], extensions: ['test.js', 'test.custom-ext']});
+
+	function isTest(file) {
+		t.true(avaFiles.isTest(file), `${file} should be a test`);
+	}
+
+	function notTest(file) {
+		t.false(avaFiles.isTest(file), `${file} should not be a test`);
+	}
+
+	isTest('foo-bar.test.custom-ext');
+	isTest('foo-bar.test.js');
+	notTest('foo-bar.test.unknown-ext');
+	notTest('foo-bar.js');
+	t.end();
+});
+
 test('sourceMatcher - defaults', t => {
 	const avaFiles = new AvaFiles({files: ['**/foo*']});
 
